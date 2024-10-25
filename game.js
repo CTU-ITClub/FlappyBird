@@ -14,7 +14,7 @@ scrn.addEventListener("click", () => {
     case state.gameOver:
       state.curr = state.getReady;
       bird.speed = 0;
-      bird.y = 100;
+      bird.y = 300;
       pipe.pipes = [];
       UI.score.curr = 0;
       SFX.played = false;
@@ -36,7 +36,7 @@ scrn.onkeydown = function keyDown(e) {
       case state.gameOver:
         state.curr = state.getReady;
         bird.speed = 0;
-        bird.y = 100;
+        bird.y = 300;
         pipe.pipes = [];
         UI.score.curr = 0;
         SFX.played = false;
@@ -46,7 +46,7 @@ scrn.onkeydown = function keyDown(e) {
 };
 
 let frames = 0;
-let dx = 2;
+let dx = 3;
 const state = {
   curr: 0,
   getReady: 0,
@@ -76,7 +76,7 @@ const gnd = {
   },
 };
 const bg = {
-  sprite: new Image(),
+  sprite: new Image(100,300),
   x: 0,
   y: 0,
   draw: function () {
@@ -87,23 +87,23 @@ const bg = {
 const pipe = {
   top: { sprite: new Image() },
   bot: { sprite: new Image() },
-  gap: 85,
+  gap: 10,
   moved: true,
   pipes: [],
   draw: function () {
     for (let i = 0; i < this.pipes.length; i++) {
       let p = this.pipes[i];
-      sctx.drawImage(this.top.sprite, p.x, p.y);
+      sctx.drawImage(this.top.sprite, p.x, p.y + 120);
       sctx.drawImage(
         this.bot.sprite,
         p.x,
-        p.y + parseFloat(this.top.sprite.height) + this.gap
+        p.y + parseFloat(this.top.sprite.height) + this.gap + 185
       );
     }
   },
   update: function () {
     if (state.curr != state.Play) return;
-    if (frames % 100 == 0) {
+    if (frames % 65 == 0) {
       this.pipes.push({
         x: parseFloat(scrn.width),
         y: -210 * Math.min(Math.random() + 1, 1.8),
@@ -128,10 +128,10 @@ const bird = {
   ],
   rotatation: 0,
   x: 50,
-  y: 100,
+  y: 300,
   speed: 0,
-  gravity: 0.125,
-  thrust: 3.6,
+  gravity: 0.155,
+  thrust: 4.0,
   frame: 0,
   draw: function () {
     let h = this.animations[this.frame].sprite.height;
@@ -199,8 +199,8 @@ const bird = {
     let x = pipe.pipes[0].x;
     let y = pipe.pipes[0].y;
     let r = bird.height / 4 + bird.width / 4;
-    let roof = y + parseFloat(pipe.top.sprite.height);
-    let floor = roof + pipe.gap;
+    let roof = y + 118 + parseFloat(pipe.top.sprite.height);
+    let floor = roof + pipe.gap + 85;
     let w = parseFloat(pipe.top.sprite.width);
     if (this.x + r >= x) {
       if (this.x + r < x + w) {
