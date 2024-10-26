@@ -76,7 +76,7 @@ const gnd = {
   },
 };
 const bg = {
-  sprite: new Image(100,300),
+  sprite: new Image(),
   x: 0,
   y: 0,
   draw: function () {
@@ -88,6 +88,8 @@ const pipe = {
   top: { sprite: new Image() },
   bot: { sprite: new Image() },
   gap: 10,
+  // top_distance: 120,
+  // bot_distance: 120,
   moved: true,
   pipes: [],
   draw: function () {
@@ -103,7 +105,7 @@ const pipe = {
   },
   update: function () {
     if (state.curr != state.Play) return;
-    if (frames % 65 == 0) {
+    if (frames % 70 == 0) {
       this.pipes.push({
         x: parseFloat(scrn.width),
         y: -210 * Math.min(Math.random() + 1, 1.8),
@@ -200,7 +202,7 @@ const bird = {
     let y = pipe.pipes[0].y;
     let r = bird.height / 4 + bird.width / 4;
     let roof = y + 118 + parseFloat(pipe.top.sprite.height);
-    let floor = roof + pipe.gap + 85;
+    let floor = roof + pipe.gap + 73;
     let w = parseFloat(pipe.top.sprite.width);
     if (this.x + r >= x) {
       if (this.x + r < x + w) {
@@ -292,10 +294,10 @@ const UI = {
   },
 };
 
-gnd.sprite.src = "img/ground.png";
-bg.sprite.src = "img/BG.png";
+gnd.sprite.src = "img/gnd-xoanen.png";
+bg.sprite.src = "img/BG-xoanen.png";
 pipe.top.sprite.src = "img/toppipe.png";
-pipe.bot.sprite.src = "img/botpipe.png";
+pipe.bot.sprite.src = "img/botPipe-xoanen.png";
 UI.gameOver.sprite.src = "img/go.png";
 UI.getReady.sprite.src = "img/getready.png";
 UI.tap[0].sprite.src = "img/tap/t0.png";
@@ -318,7 +320,7 @@ function gameLoop() {
 
 function update() {
   bird.update();
-  gnd.update();
+  // gnd.update();
   pipe.update();
   UI.update();
 }
@@ -335,3 +337,4 @@ function draw() {
 }
 
 setInterval(gameLoop, 20);
+setInterval(gnd.update, 10);
